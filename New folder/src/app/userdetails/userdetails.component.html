@@ -1,0 +1,33 @@
+
+<div class="container mt-3">
+    <div class="row justify-content-md-center">
+      <div class="col-lg-8">
+        <div>
+          <caption style="font-size: 24px">UserDetails</caption>
+          <table class="table table-condensed table-striped">
+        
+            <thead>
+              <tr>
+                <th>First Name</th>
+                <th>LastName</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let task of allTasks;let index=index;">
+              <td>{{task.taskName}}</td>
+              <td>{{task.taskStatus}}</td>
+              <td><button class="btn btn-primary" (click)="editTask(index);">Edit</button></td>
+              <td><button class="btn btn-danger" (click) ="deleteTask(index);">Delete</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+            <button type="button" class="btn btn-md btn-success m5" (click)="addTask();">Add User</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

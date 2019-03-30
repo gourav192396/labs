@@ -1,0 +1,28 @@
+<div class="container pt">
+  <div class="row justify-content-md-center">
+    <div class="col-lg-8">
+      <form #loginForm=ngForm>
+        <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+        <div class="form-group">
+          <label for="inputEmail">Email address:</label>
+          <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus [(ngModel)]="input.email"  name="email">
+          <span class="colorRed" *ngIf="requiredEmailStatus">Email is required</span>
+          <span class="colorRed" *ngIf="incorrectEmailStatus">Email is incorrect</span>
+        </div>
+        
+        <div class="form-group">
+          <label for="inputPassword">Password:</label>
+          <input type="password" id="inputPassword" class="form-control" placeholder="Password" [(ngModel)]="input.password"  required  name="password">
+          <span class="colorRed" *ngIf="requiredPasswordStatus">Password is required</span>
+          <span class="colorRed" *ngIf="incorrectPasswordStatus">Password is incorrect</span>
+        </div>
+      
+        <div class="form-group">
+          <button type="button" class="btn btn-md btn-success m5" (click)="validate()">Login</button>
+          <button type="button" class="btn btn-md btn-danger m5" (click)="clear()">Clear</button>
+          <button  type="button" class="btn btn-md btn-info m5" (click)="navigateToHome();">Go to Home</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
