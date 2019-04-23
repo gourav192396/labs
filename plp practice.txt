@@ -1,0 +1,137 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { PromoComponent } from './promo/promo.component';
+import { PromoFormComponent } from './promo-form/promo-form.component';
+
+const routes: Routes = [
+  {path: 'send', component: PromoComponent},
+  {path: '' , redirectTo: '', pathMatch: 'full'},
+  {path: 'promo-form', component: PromoFormComponent, pathMatch: 'full'}
+];
+
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+
+
+<div class="example-container">
+  <form class="example-container" [formGroup]="options">
+    <mat-checkbox formControlName="hideRequired">Only Registered Customer</mat-checkbox>
+  
+  <mat-form-field>
+    <input matInput placeholder="Enter your email" [formControl]="email" required>
+    <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Enter CustomerId" [formControl]="customerId" required>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Enter PromoId" [formControl]="promoId" required>
+  </mat-form-field>
+  <button mat-button>Send</button>
+  </form>
+</div>
+
+import { Component, OnInit, Input } from '@angular/core';
+import { PromoModel } from 'src/models/PromoModel';
+import { PromoService } from '../promo.service';
+import { Router } from '@angular/router';
+
+@Component ({
+  selector: 'app-promo',
+  templateUrl: './promo-form.component.html',
+  styleUrls: ['./promo-form.component.css']
+})
+export class PromoFormComponent implements OnInit {
+
+@Input() promo: PromoModel;
+
+  allEmail: PromoModel[];
+allCustomerId: PromoModel[];
+newPromo: PromoModel;
+  constructor(private routes: Router, private promoService: PromoService) {
+    this.newPromo = new PromoModel();
+    this.allEmail = [];
+    this.allCustomerId = [];
+    this.allEmail = this.promoService.sendPromo();
+    this.allCustomerId = this.promoService.sendPromo();
+   }
+
+
+  ngOnInit() {
+  }
+sendPromo() {
+  this.routes.navigate(['/send']);
+}
+}
+
+
+
+import { MaterialModule } from './material.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { PromoComponent } from './promo/promo.component';
+import { RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PromoFormComponent } from './promo-form/promo-form.component';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    PromoComponent,
+    PromoFormComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+
+
+import { Injectable } from '@angular/core';
+import{Router} from '@angular/router';
+import { PromoModel } from 'src/models/PromoModel';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PromoService {
+promoArr: PromoModel[];
+  constructor(private routes: Router) {
+    this.promoArr = [];
+   }
+   add(promo: PromoModel){
+     promo.promoId = Math.floor(Math.random() * 100);
+     
+     this.promoArr.push(promo);
+     this.routes.navigate(['/send']);
+
+   }
+  //  getDetailsOf(index) {
+    
+  //   return this.promoArr[index];
+  // }
+  
+  sendPromo() {
+    return this.promoArr;
+  }
+
+  }
